@@ -2,12 +2,17 @@ from rest_framework import serializers
 from watchlist_app.models import Movie
 
 class MovieSerializer(serializers.ModelSerializer): # This is a ModelSerializer
+    len_name = serializer.SerializerMethodField()
+    
     class Meta:
         model = Movie    # This defines the model it will serialize
         fields = "__all__"  #This is used when getting all the fields in the model
         # fields = ['id', 'name', 'description',] #This is used when getting some particular fields in the model
         # exclude = ["_id", "active"] #This is used to remove a particular field from the model
-        
+
+    def get_len_name(self, object):
+        return len(object.name)
+    
     def validate_name(self, value): #This is used to validate the value in the name field. This is a field validation
         if len(value) < 2:
             raise serializers.ValidationError('Name is too short!')
