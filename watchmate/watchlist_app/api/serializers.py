@@ -2,7 +2,7 @@ from rest_framework import serializers
 from watchlist_app.models import Movie
 
 class MovieSerializer(serializers.ModelSerializer): # This is a ModelSerializer
-    len_name = serializer.SerializerMethodField()
+    len_name = serializers.SerializerMethodField()
     
     class Meta:
         model = Movie    # This defines the model it will serialize
