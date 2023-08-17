@@ -25,7 +25,8 @@ class MovieDetailAV(APIView):
             try:
                 movie = Movie.objects.get(pk=pk)
             except Movie.DoesNotExist:
-                return Response({'Error': 'Movie not found'}, status=status.HTTP_404_NOT_FOUND)
+                context = {'Error': 'Movie not found'}
+                return Response(context, status=status.HTTP_404_NOT_FOUND)
             
             serializer = MovieSerializer(movie)
             return Response(serializer.data,)
