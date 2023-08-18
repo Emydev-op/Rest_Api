@@ -7,7 +7,8 @@ from . import views
 # ]
 
 urlpatterns = [
-    path('list/', views.WatchListAView.as_view(), name="movie-list"),
-    path('<int:pk>/', views.WatchDetailAV.as_view(), name="movie-detail"),
-    path('stream/', views.StreamPlatformAV.as_view(), name="stream-serializer"),
+    path('list/', views.WatchListAView.as_view(), name="watch-list"),
+    path('list/<int:pk>/', views.WatchDetailAV.as_view(), name="watch-detail"),
+    path('stream/', views.StreamPlatformAV.as_view(), name="platform-list"),
+    path('stream/<int:pk>/', views.StreamPlatformDetailAV.as_view(), name="platform-detail"),
 ]
