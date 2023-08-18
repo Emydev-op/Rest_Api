@@ -1,36 +1,26 @@
 from rest_framework import serializers
-from watchlist_app.models import Movie
+from watchlist_app.models import WatchList, StreamPlatform
 
-class MovieSerializer(serializers.ModelSerializer): # This is a ModelSerializer
-    len_name = serializers.SerializerMethodField()
-    
+class WatchListSerializer(serializers.ModelSerializer): # This is a ModelSerializer
+
     class Meta:
-        model = Movie    # This defines the model it will serialize
+        model = WatchList    # This defines the model it will serialize
         fields = "__all__"  #This is used when getting all the fields in the model
         # fields = ['id', 'name', 'description',] #This is used when getting some particular fields in the model
         # exclude = ["_id", "active"] #This is used to remove a particular field from the model
 
-    def get_len_name(self, object):
-        return len(object.name)
+class StreamPlatformSerializer(serializers.ModelSerializer):
     
-    def validate_name(self, value): #This is used to validate the value in the name field. This is a field validation
-        if len(value) < 2:
-            raise serializers.ValidationError('Name is too short!')
-        else:
-            return value
-        
-    def validate(self, data): #This is used to validate the object. This is an object validation
-        if data['name'] == data['description']:
-            raise serializers.ValidationError('Name and description should be different')
-        else:
-            print(data)
-            return data
+    class Meta:
+        model = StreamPlatform
+        fields = "__all__" 
+
 
 # def name_length(value): #This is a validator function. It is called inside the core argument inside a field
 #     if len(value) < 2:
 #         raise serializers.ValidationError('Name is too short!')
 
-# class MovieSerializer(serializers.Serializer): # This is a serializer 
+# class WatchListSerializer(serializers.Serializer): # This is a serializer 
 #     id = serializers.IntegerField(read_only=True)
 #     name = serializers.CharField(validators=[name_length])
 #     description = serializers.CharField()
