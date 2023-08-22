@@ -10,7 +10,8 @@ class WatchListSerializer(serializers.ModelSerializer): # This is a ModelSeriali
         # exclude = ["_id", "active"] #This is used to remove a particular field from the model
 
 class StreamPlatformSerializer(serializers.ModelSerializer):
-    watchlist = WatchListSerializer(many=True, read_only=True) #This is used when getting all the fields in the watchlist
+    #watchlist = WatchListSerializer(many=True, read_only=True) #This is used when getting all the fields in the watchlist
+    watchlist = serializers.StringRelatedField(many=True) #This is used when getting the name of the fields identified by the __str__ in the watchlist
     class Meta:
         model = StreamPlatform
         fields = "__all__" 
