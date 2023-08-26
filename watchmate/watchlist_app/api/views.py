@@ -13,7 +13,7 @@ class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
     serializer_class = ReviewSerializer
 
     def get(self, request, *args, **kwargs):
-        return self.list(request,*args, **kwargs)
+        return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
