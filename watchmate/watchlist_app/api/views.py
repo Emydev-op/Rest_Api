@@ -12,12 +12,20 @@ class ReviewList(generics.ListAPIView):
     serializer_class = ReviewSerializer
     
     def get_queryset(self):
-        pk = self.kwargs[pk]
+        pk = self.kwargs['pk']
         return Review.objects.filter(watchlist= pk)
         
         ''' This get_queryset method is used to make our own queryset instead of using the default queryset
         to get all data. Now we use the watchlist as the id to get individual reviews for each movie'''
+
+class ReviewCreate(generics.CreateAPIView):
+    serializer_class = ReviewSerializer
     
+    def perform_create(self, serializer):
+        pk = self.kwards.get('pk')
+        movie = WatchList.objects.get(pk=pk)
+        serializer.save(watchlist=movie)
+        
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
