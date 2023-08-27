@@ -8,9 +8,15 @@ from watchlist_app.models import WatchList, StreamPlatform, Review
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 # Create your views here.
 
-class ReviewList(generics.ListCreateAPIView):
-    queryset = Review.objects.all()
+class ReviewList(generics.ListAPIView):
     serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+        pk = self.kwargs[pk]
+        return Review.objects.filter(watchlist= pk)
+        
+        ''' This get_queryset method is used to make our own queryset instead of using the default queryset
+        to get all data. Now we use the watchlist as the id to get individual reviews for each movie'''
     
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
