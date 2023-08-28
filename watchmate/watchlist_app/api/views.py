@@ -124,18 +124,35 @@ class StreamPlatformDetailAV(APIView):
         platform.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-class StreamPlatform(viewsets.ViewSet):
+class StreamPlatformVS(viewsets.ModelViewSet):
+    queryset = StreamPlatform.objects.all()
+    serializer_class = StreamPlatformSerializer
     
-    def list(self, request):
-        queryset = StreamPlatform.objects.all()
-        serializer = StreamPlatformSerializer(queryset, many=True) 
-        return Response(serializer.data)
+# class StreamPlatformVS(viewsets.ReadOnlyModelViewSet):
+#     queryset = StreamPlatform.objects.all()
+#     serializer_class = StreamPlatformSerializer
+#     This is used when creating a viewset model to only display the data. You can't PUT, POST or DELETE
     
-    def retrieve(self, request, pk=None):
-        queryset = StreamPlatform.objects.all()
-        watchlist = get_object_or_404(queryset, pk=pk)
-        serializer = StreamPlatformSerializer(StreamPlatform) 
-        return Response(serializer.data)
+# class StreamPlatformVS(viewsets.ViewSet): # This is using viewset and router to create a view
+    
+#     def list(self, request):
+#         queryset = StreamPlatform.objects.all()
+#         serializer = StreamPlatformSerializer(queryset, many=True) 
+#         return Response(serializer.data)
+    
+#     def retrieve(self, request, pk=None):
+#         queryset = StreamPlatform.objects.all()
+#         watchlist = get_object_or_404(queryset, pk=pk)
+#         serializer = StreamPlatformSerializer(watchlist) 
+#         return Response(serializer.data)
+    
+#     def create(self, request, pk=None):
+#         serializer = StreamPlatformSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors)
 
 # @api_view(['GET', 'POST'])
 # def movie_list(request):

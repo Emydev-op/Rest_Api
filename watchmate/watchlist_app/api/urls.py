@@ -7,7 +7,7 @@ from . import views
 #     path('<int:pk>/', views.movie_details, name="movie-detail"),
 # ]
 router = DefaultRouter()
-router.register('stream', views.StreamPlatform.as_view(), basename='streamplatform')
+router.register('stream', views.StreamPlatformVS, basename='streamplatform')
 
 urlpatterns = [
     path('list/', views.WatchListAView.as_view(), name="watch-list"),
