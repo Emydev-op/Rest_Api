@@ -28,4 +28,4 @@ def registration_view(request):
 def logout_view(request):
     if request.method == 'POST':
         request.user.auth_token.delete()
-        return Response(status=status.HTTP_204_OK)
+        return Response(status=status.HTTP_200_OK)
