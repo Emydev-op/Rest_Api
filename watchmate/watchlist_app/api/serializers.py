@@ -19,10 +19,10 @@ class WatchListSerializer(serializers.ModelSerializer): # This is a ModelSeriali
 
 class StreamPlatformSerializer(serializers.ModelSerializer):
     #watchlist = WatchListSerializer(many=True, read_only=True) #This is used when getting all the fields in the watchlist
-    watchlist = serializers.StringRelatedField(many=True) #This is used when getting the name of the fields identified by the __str__ in the watchlist
+    watchlist = serializers.StringRelatedField(many=True, read_only=True) #This is used when getting the name of the fields identified by the __str__ in the watchlist
     class Meta:
         model = StreamPlatform
-        fields = "__all__" 
+        fields = "__all__"
 
 
 # def name_length(value): #This is a validator function. It is called inside the core argument inside a field
