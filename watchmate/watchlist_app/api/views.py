@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import mixins
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework.decorators import api_view
 from .permissions import AdminOrReadOnly, ReviewUserOrReadOnly
 from watchlist_app.models import WatchList, StreamPlatform, Review
@@ -50,6 +51,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [ReviewUserOrReadOnly]
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
 # class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
 #     queryset = Review.objects.all()
@@ -151,6 +153,7 @@ class StreamPlatformDetailAV(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class StreamPlatformVS(viewsets.ModelViewSet):
+    
     permission_classes = [AdminOrReadOnly]
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer
