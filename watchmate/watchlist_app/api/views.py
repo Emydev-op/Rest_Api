@@ -1,21 +1,23 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
-from rest_framework.views import APIView
-from rest_framework import generics
 from rest_framework import status
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import mixins
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import ValidationError
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .permissions import AdminOrReadOnly, ReviewUserOrReadOnly
-from watchlist_app.models import WatchList, StreamPlatform, Review
+from .throttling import ReviewCreateThrottle, ReviewListThrottle
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
+from watchlist_app.models import WatchList, StreamPlatform, Review
 # Create your views here.
 
 class ReviewList(generics.ListAPIView):
     serializer_class = ReviewSerializer
+    throttle_classes = [AnonRateThrottle, ReviewListThrottle]
     
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -27,6 +29,7 @@ class ReviewList(generics.ListAPIView):
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
+    throttle_classes = [ReviewCreateThrottle]
     
     def get_queryset(self):
         return Review.objects.all()
