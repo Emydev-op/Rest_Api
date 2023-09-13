@@ -10,6 +10,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 class WatchListSerializer(serializers.ModelSerializer): # This is a ModelSerializer
     reviews = ReviewSerializer(many=True, read_only=True)
+    platform = serializers.CharField(source='platform.name')
 
     class Meta:
         model = WatchList    # This defines the model it will serialize

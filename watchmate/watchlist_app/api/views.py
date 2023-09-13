@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework import mixins
+from rest_framework import filters
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.views import APIView
@@ -29,7 +30,7 @@ class UserReview(generics.ListAPIView):
 
 class ReviewList(generics.ListAPIView):
     serializer_class = ReviewSerializer
-    throttle_classes = [AnonRateThrottle, ReviewListThrottle]
+    #throttle_classes = [AnonRateThrottle, ReviewListThrottle]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['review_user__username', 'active']
     
@@ -68,7 +69,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [ReviewUserOrReadOnly]
-    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    #throttle_classes = [UserRateThrottle, AnonRateThrottle]
 
 # class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
 #     queryset = Review.objects.all()
@@ -87,6 +88,11 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 #     def get(self, request, *args, **kwargs):
 #         return self.retrieve(request, *args, **kwargs)
 
+class WatchListGB(generics.ListAPIView):
+    queryset = WatchList.objects.all()
+    serializer_class = WatchListSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'platform__name']
 
 class WatchListAView(APIView):
     permission_classes = [AdminOrReadOnly]
