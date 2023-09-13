@@ -15,6 +15,17 @@ from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSe
 from watchlist_app.models import WatchList, StreamPlatform, Review
 # Create your views here.
 
+class UserReview(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    
+    # def get_queryset(self):
+    #     username = self.kwargs['username']
+    #     return Review.objects.filter(review_user__username=username)
+    
+    def get_queryset(self):
+        rating = self.kwargs['rating']
+        return Review.objects.filter(rating=rating)
+
 class ReviewList(generics.ListAPIView):
     serializer_class = ReviewSerializer
     throttle_classes = [AnonRateThrottle, ReviewListThrottle]
