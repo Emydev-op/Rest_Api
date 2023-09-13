@@ -19,7 +19,7 @@ urlpatterns = [
     path('<int:pk>/reviews/', views.ReviewList.as_view(), name="review-list"),
     path('review/<int:pk>/', views.ReviewDetail.as_view(), name="review-detail"),
     
-    path('reviews/<int:rating>/', views.UserReview.as_view(), name="user-review-details"),
+    path('reviews/', views.UserReview.as_view(), name="user-review-details"),
     # path('review/', views.ReviewList.as_view(), name="review-list"),
     # path('review/<int:pk>/', views.ReviewDetail.as_view(), name="review-detail"),    
 ]
