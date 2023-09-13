@@ -13,6 +13,7 @@ from .permissions import AdminOrReadOnly, ReviewUserOrReadOnly
 from .throttling import ReviewCreateThrottle, ReviewListThrottle
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 from watchlist_app.models import WatchList, StreamPlatform, Review
+from django_filters.rest_framework import DjangoFilterBackend
 # Create your views here.
 
 class UserReview(generics.ListAPIView):
@@ -29,6 +30,8 @@ class UserReview(generics.ListAPIView):
 class ReviewList(generics.ListAPIView):
     serializer_class = ReviewSerializer
     throttle_classes = [AnonRateThrottle, ReviewListThrottle]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['review_user__username', 'active']
     
     def get_queryset(self):
         pk = self.kwargs['pk']
