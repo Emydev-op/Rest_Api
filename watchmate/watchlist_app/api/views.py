@@ -11,6 +11,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .permissions import AdminOrReadOnly, ReviewUserOrReadOnly
+from .pagination import WatchListPagination
 from .throttling import ReviewCreateThrottle, ReviewListThrottle
 from .serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
 from watchlist_app.models import WatchList, StreamPlatform, Review
@@ -91,6 +92,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 class WatchListGB(generics.ListAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
+    pagination_class = WatchListPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'platform__name']
 
